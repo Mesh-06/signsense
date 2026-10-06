@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SignSense</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
+</head>
+<body>
+<header>
+  <h1>SignSense</h1>
+  <span id="status">Loading model…</span>
+</header>
+
+<main>
+  <section class="panel">
+    <nav class="tabs">
+      <button data-tab="cam" class="on">Camera</button>
+      <button data-tab="up">Upload</button>
+      <button data-tab="smp">Samples</button>
+    </nav>
+
+    <div id="cam" class="tab on">
+      <div class="view"><video id="video" autoplay playsinline muted></video><div id="reticle"></div></div>
+      <p class="hint">Hold a sign inside the square. Make the square smaller to zoom in.</p>
+      <label>Square size <input id="zoom" type="range" min="1" max="4" step="0.1" value="2"></label>
+      <button id="startCam" class="primary">Start camera</button>
+    </div>
+
+    <div id="up" class="tab">
+      <input type="file" id="file" accept="image/*">
+      <img id="preview" alt="Uploaded photo">
+      <label>Zoom <input id="uz" type="range" min="1" max="6" step="0.1" value="1"></label>
+      <label>Left / right <input id="ox" type="range" min="0" max="1" step="0.01" value="0.5"></label>
+      <label>Up / down <input id="oy" type="range" min="0" max="1" step="0.01" value="0.5"></label>
+    </div>
+
+    <div id="smp" class="tab">
+      <p class="hint">Real test-set signs. Tap one to classify it.</p>
+      <div id="gallery"></div>
+      <button id="parity" class="primary">Run browser vs Python check</button>
+      <pre id="parityOut"></pre>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div id="badge" class="info">—</div>
+    <h2 id="name">Point at a sign</h2>
+    <div id="confbar"><i id="conf"></i></div>
+    <ol id="top3"></ol>
+
+    <div class="controls">
+      <button id="voice">Enable voice alerts</button>
+      <label>Minimum confidence <b id="thrv">0.85</b>
+        <input id="thr" type="range" min="0.5" max="0.99" step="0.01" value="0.85"></label>
+      <label>Your speed (km/h)
+        <input id="speed" type="number" min="0" max="200" placeholder="optional"></label>
+    </div>
+
+    <h3>Alert log</h3>
+    <ul id="log"></ul>
+    <details><summary>Model info</summary><div id="info"></div></details>
+  </section>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
